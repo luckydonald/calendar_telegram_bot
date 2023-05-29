@@ -1,6 +1,6 @@
 luckydonald-utils==0.83
 
-icalendar==5.0.6
+icalendar==5.0.7
 
 icalevents==0.1.27
 
