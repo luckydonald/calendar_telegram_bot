@@ -3,7 +3,13 @@ from datetime import datetime
 from icalevents.icalparser import Event as FileEvent
 from fastorm import FastORM
 
+
 class Event(FileEvent, FastORM):
+    _ignored_fields = []
+    _primary_keys = ['uid']
+    _automatic_fields = []
+    _table_name='event'
+
     uid: int
     calendar: int
     summary: None | str
