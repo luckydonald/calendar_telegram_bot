@@ -30,6 +30,61 @@ class TypedCalenderEvent(CalenderEvent):
     floating: None | bool
     status: None | str
     url: None | str
+
+    @classmethod
+    def from_ical(
+            cls,
+            ical: CalenderEvent,
+            new_uid: bool | str = False,
+            new_start: None | datetime = None,
+    ) -> Self:
+        """
+        Create a new database event equal to the given one with optional new start date.
+
+        :param ical: the event to copy.
+        :param new_uid: UID of new event.
+        :param new_start: new start date.
+        :return: new event.
+        """
+
+        # basically the same as `Event.copy_to()`, but using `cls()` instead of `Event()`
+        if not new_start:
+            new_start = ical.start
+        # end if
+
+        uid = ical.uid
+        if isinstance(new_uid, bool) and new_uid:
+            uid = "%s_%d" % (ical.uid, randint(0, 1000000))
+        # end if
+
+        new = cls()
+
+        new.summary = ical.summary
+        new.description = ical.description
+        new.start = new_start
+
+        if ical.end:
+            duration = ical.end - ical.start
+            new.end = new_start + duration
+        # end if
+
+        new.all_day = ical.all_day
+        new.recurring = ical.recurring
+        new.location = ical.location
+        new.attendee = ical.attendee
+        new.organizer = ical.organizer
+        new.private = ical.private
+        new.transparent = ical.transparent
+        new.uid = uid
+        new.created = ical.created
+        new.last_modified = ical.last_modified
+        new.categories = ical.categories
+        new.floating = ical.floating
+        new.status = ical.status
+        new.url = ical.url
+
+        return new
+    # end def
 # end class
 
 
