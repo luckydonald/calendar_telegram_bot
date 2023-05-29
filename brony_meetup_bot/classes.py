@@ -52,7 +52,7 @@ class CalendarEntryText(TagifyNameMixin):
         <b>Ort:</b> {place}
         <b>Link:</b> {link}
 
-        #{tags_calendar} #{tags_year}
+        #{tags}
     """.strip())
 
     @property
