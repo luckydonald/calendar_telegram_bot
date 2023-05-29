@@ -7,11 +7,11 @@ from typing import NamedTuple
 # libs
 import httpx
 from icalevents.icalevents import events as parse_events
-from icalevents.icalparser import Event as FileEvent
 from luckydonaldUtils.logger import logging
 
 # local
 from .classes import CalendarDetail
+from .database.models import Event
 
 logger = logging.getLogger(__name__)
 
@@ -27,28 +27,6 @@ logger = logging.getLogger(__name__)
 CALENDARS = [
 ]
 
-class Event(FileEvent):
-    uid: int
-    calendar: int
-    summary: None | str
-    description: None | str
-    start: None | datetime
-    end: None | datetime
-    all_day: bool
-    transparent: bool
-    recurring: bool
-    location: None | str # ???
-    private: bool
-    created: None
-    last_modified: None
-    sequence: None
-    recurrence_id: None
-    attendee: None
-    organizer: None
-    categories: None
-    floating: None
-    status: None
-    url: None
 
 
 async def main_loop():
