@@ -76,7 +76,7 @@ class CalendarEntryText(TagifyNameMixin):
                         self.calendar.tagified,
                         self.start_date.year,
                         self.end_date.year,
-                        self.tagified,
+                        self.tagified.removesuffix(f'_{self.end_date.year}'),
                     ]
                 )
             ),
