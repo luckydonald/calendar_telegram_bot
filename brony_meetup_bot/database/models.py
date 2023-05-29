@@ -1,15 +1,12 @@
 from datetime import datetime
+from random import randint
+from typing import Self
 
-from icalevents.icalparser import Event as FileEvent
+from icalevents.icalparser import Event as CalenderEvent
 from fastorm import FastORM
 
 
-class Event(FileEvent, FastORM):
-    _ignored_fields = []
-    _primary_keys = ['uid']
-    _automatic_fields = []
-    _table_name='event'
-
+class TypedCalenderEvent(CalenderEvent):
     uid: int
     calendar: int
     summary: None | str
@@ -23,12 +20,22 @@ class Event(FileEvent, FastORM):
     private: bool
     created: None | datetime
     last_modified: None | datetime
-    sequence: None
-    recurrence_id: None
+    sequence: None | int
+
+    # Spec defines that if DTSTART is a date RECURRENCE-ID also is to be interpreted as a date
+    recurrence_id: None | str
     attendee: None | str
     organizer: None | str
-    categories: None
-    floating: None
-    status: None
+    categories: None | list[str]
+    floating: None | bool
+    status: None | str
     url: None | str
+# end class
+
+
+class Event(TypedCalenderEvent, FastORM):
+    _ignored_fields = []
+    _primary_keys = ['uid']
+    _automatic_fields = []
+    _table_name='event'
 # end class
