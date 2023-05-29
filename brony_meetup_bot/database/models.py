@@ -25,3 +25,4 @@ class Event(FileEvent, FastORM):
     floating: None
     status: None
     url: None | str
+# end class
