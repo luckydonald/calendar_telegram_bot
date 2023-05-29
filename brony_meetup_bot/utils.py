@@ -51,8 +51,10 @@ def format_date_interval(start: datetime, end: datetime) -> str:
     - 24.-25.12.1999 (12:20-12:10)
     - 24.11.-23.12.1999
     - 24.11.-23.12.1999 (12:20-12:10)
-    - 31.12.1999-01.01.2000
-    - 31.12.1999-01.01.2000 (12:20-12:10)
+    - 31.12.1999 - 01.01.2000
+    - 31.12.1999 (12:10) - 01.01.2000
+    - 31.12.1999 (12:10) - 01.01.2000 (12:09)
+    - 31.12.1999 - 01.01.2000 (12:09)
 
     :param start:
     :param end:
@@ -82,8 +84,15 @@ def format_date_interval(start: datetime, end: datetime) -> str:
             return start.strftime('%d.%m.') + '-' + end.strftime('%d.%m.%Y') + times_if_non_zero(start, end)
     else:
         # year differs
-        # 31.12.1999-01.01.2000
-        # 31.12.1999-01.01.2000 (12:20-12:10)
-        return start.strftime('%d.%m.%Y') + '-' + end.strftime('%d.%m.%Y') + times_if_non_zero(start, end)
+        if time_is_zero(start) and time_is_zero(end):
+            # year differs, midnight
+            # 31.12.1999-01.01.2000
+            return start.strftime('%d.%m.%Y') + ' - ' + end.strftime('%d.%m.%Y')
+        else:
+            # year differs, non-midnight
+            # 31.12.1999 (12:10) - 01.01.2000
+            # 31.12.1999 (12:10) - 01.01.2000 (12:09)
+            # 31.12.1999 - 01.01.2000 (12:09)
+            return start.strftime('%d.%m.%Y') + time_if_non_zero(start, prefix=' (', suffix=')') + ' - ' + end.strftime('%d.%m.%Y') + time_if_non_zero(end, prefix=' (', suffix=')')
     # end if
 # end def
