@@ -10,6 +10,9 @@ from icalevents.icalevents import events as parse_events
 from icalevents.icalparser import Event as FileEvent
 from luckydonaldUtils.logger import logging
 
+# local
+from .classes import CalendarDetail
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,11 +22,7 @@ logger = logging.getLogger(__name__)
 # Press the green button in the gutter to run the script.
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
-class CalendarDetail(NamedTuple):
-    name: str
-    calendar_id: int
-    emoji: str
-    url: str
+
 
 CALENDARS = [
 ]
