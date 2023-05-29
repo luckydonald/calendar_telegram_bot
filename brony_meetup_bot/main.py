@@ -2,7 +2,6 @@
 import asyncio
 from asyncio import sleep
 from datetime import datetime, timedelta
-from typing import NamedTuple
 
 # libs
 import httpx
@@ -10,7 +9,7 @@ from icalevents.icalevents import events as parse_events
 from luckydonaldUtils.logger import logging
 
 # local
-from .classes import CalendarDetail
+from .classes import CalendarDetail, CalendarEntryText
 from .database.models import Event
 
 logger = logging.getLogger(__name__)
