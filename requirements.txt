@@ -1,5 +1,9 @@
 luckydonald-utils==0.83
+
 icalendar==5.0.6
+
 icalevents==0.1.27
+
 httpx==0.24.1
+
 fastorm==0.0.16
