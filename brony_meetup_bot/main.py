@@ -51,6 +51,19 @@ CALENDARS = [
 ]
 
 
+example = CalendarEntryText(
+    calendar=CALENDARS[0],
+    name='Pinkies Chocolate Rain Party 2023',
+    date='18.-20.08.2023',
+    place=None,
+    link=None,
+)
+
+
+
+
+
+
 
 async def main_loop():
     async with httpx.AsyncClient() as client:
