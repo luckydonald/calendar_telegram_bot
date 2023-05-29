@@ -3,7 +3,10 @@ from datetime import date, datetime
 from html import escape
 from textwrap import dedent
 from typing import NamedTuple
+
 from luckydonaldUtils.text import convert_to_underscore
+
+from .utils import format_date_interval
 
 
 class TagifyNameMixin:
@@ -54,8 +57,7 @@ class CalendarEntryText(TagifyNameMixin):
 
     @property
     def formatted_date_range(self) -> str:
-        text = ''
-
+        return format_date_interval(self.start_date, self.end_date)
     # end def
 
     def __str__(self):
