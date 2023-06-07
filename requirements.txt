@@ -6,7 +6,9 @@ icalevents==0.1.27
 
 httpx==0.24.1
 
-pytgbot==5.7
+pytgbot[async]==5.7
+
+async-property==0.2.1
 
 # fastorm==0.0.16
 git+https://github.com/luckydonald/fastorm.git@71ea1eb457d84d363fee7a60092b5f4fc66f93ab#egg=fastorm
