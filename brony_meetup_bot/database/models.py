@@ -46,6 +46,24 @@ class TypedCalenderEvent(CalenderEvent):
         :param new_start: new start date.
         :return: new event.
         """
+        new = cls()
+        return new.apply_ical(ical=ical, new_uid=new_uid, new_start=new_start)
+    # end def
+
+    def apply_ical(
+        self,
+        ical: CalenderEvent,
+        new_uid: bool | str = False,
+        new_start: None | datetime = None,
+    ) -> Self:
+        """
+        Apply data from the given one, with optional new start date.
+
+        :param ical: the event to copy.
+        :param new_uid: UID of new event.
+        :param new_start: new start date.
+        :return: new event.
+        """
 
         # basically the same as `Event.copy_to()`, but using `cls()` instead of `Event()`
         if not new_start:
@@ -57,33 +75,31 @@ class TypedCalenderEvent(CalenderEvent):
             uid = "%s_%d" % (ical.uid, randint(0, 1000000))
         # end if
 
-        new = cls()
-
-        new.summary = ical.summary
-        new.description = ical.description
-        new.start = new_start
+        self.summary = ical.summary
+        self.description = ical.description
+        self.start = new_start
 
         if ical.end:
             duration = ical.end - ical.start
-            new.end = new_start + duration
+            self.end = new_start + duration
         # end if
 
-        new.all_day = ical.all_day
-        new.recurring = ical.recurring
-        new.location = ical.location
-        new.attendee = ical.attendee
-        new.organizer = ical.organizer
-        new.private = ical.private
-        new.transparent = ical.transparent
-        new.uid = uid
-        new.created = ical.created
-        new.last_modified = ical.last_modified
-        new.categories = ical.categories
-        new.floating = ical.floating
-        new.status = ical.status
-        new.url = ical.url
+        self.all_day = ical.all_day
+        self.recurring = ical.recurring
+        self.location = ical.location
+        self.attendee = ical.attendee
+        self.organizer = ical.organizer
+        self.private = ical.private
+        self.transparent = ical.transparent
+        self.uid = uid
+        self.created = ical.created
+        self.last_modified = ical.last_modified
+        self.categories = ical.categories
+        self.floating = ical.floating
+        self.status = ical.status
+        self.url = ical.url
 
-        return new
+        return self
     # end def
 # end class
 
@@ -97,16 +113,23 @@ class Event(TypedCalenderEvent, FastORM):
     telegram_channel_id: None | int
     telegram_message_id: None | int
 
-    @classmethod
-    def from_ical(
-        cls,
+    def apply_ical(
+        self,
         ical: CalenderEvent,
         new_uid: bool | str = False,
         new_start: None | datetime = None,
     ) -> Self:
-        new = super().from_ical(ical, new_uid, new_start)
+        """
+        Apply data from the given one, with optional new start date.
+
+        :param ical: the event to copy.
+        :param new_uid: UID of new event.
+        :param new_start: new start date.
+        :return: new event.
+        """
+        super().from_ical(ical, new_uid, new_start)
         # now we could add values which are required in the database but are not part of the parent class.
-        new.telegram_channel_id = None
-        new.telegram_message_id = None
-        return new
+        self.telegram_channel_id = None
+        self.telegram_message_id = None
+        return self
 # end class
