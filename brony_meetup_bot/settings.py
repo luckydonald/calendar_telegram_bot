@@ -40,3 +40,7 @@ example = CalendarEntryText(
     place=None,
     link=None,
 )
+
+
+TELEGRAM_CHAT_ID = 123
+TELEGRAM_API_KEY = "asd:asd"
