@@ -11,7 +11,7 @@ from luckydonaldUtils.logger import logging
 # local
 from .classes import CalendarDetail, CalendarEntryText
 from .database.models import Event
-from .data import CALENDARS
+from .settings import CALENDARS
 
 logger = logging.getLogger(__name__)
 
