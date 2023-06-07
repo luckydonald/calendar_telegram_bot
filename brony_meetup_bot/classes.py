@@ -2,11 +2,11 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from html import escape
 from textwrap import dedent
-from typing import NamedTuple
 
 from luckydonaldUtils.text import convert_to_underscore
 
 from .utils import format_date_interval
+
 
 class TagifyNameMixin:
     name: str
@@ -18,7 +18,8 @@ class TagifyNameMixin:
 # end class#
 
 
-class CalendarDetail(NamedTuple, TagifyNameMixin):
+@dataclass
+class CalendarDetail(TagifyNameMixin):
     name: str
     calendar_id: int
     emoji: str
