@@ -129,7 +129,5 @@ class Event(TypedCalenderEvent, FastORM):
         """
         super().from_ical(ical, new_uid, new_start)
         # now we could add values which are required in the database but are not part of the parent class.
-        self.telegram_channel_id = None
-        self.telegram_message_id = None
         return self
 # end class
