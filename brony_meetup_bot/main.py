@@ -52,6 +52,7 @@ async def main_loop():
                     await send_to_telegram(conn, db_event, calendar)
                 # end if
             # end for
+        # end for
     # end with
 # end def
 
