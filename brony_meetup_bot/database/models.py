@@ -92,5 +92,21 @@ class Event(TypedCalenderEvent, FastORM):
     _ignored_fields = []
     _primary_keys = ['uid']
     _automatic_fields = []
-    _table_name='event'
+    _table_name = 'event'
+
+    telegram_channel_id: None | int
+    telegram_message_id: None | int
+
+    @classmethod
+    def from_ical(
+        cls,
+        ical: CalenderEvent,
+        new_uid: bool | str = False,
+        new_start: None | datetime = None,
+    ) -> Self:
+        new = super().from_ical(ical, new_uid, new_start)
+        # now we could add values which are required in the database but are not part of the parent class.
+        new.telegram_channel_id = None
+        new.telegram_message_id = None
+        return new
 # end class
