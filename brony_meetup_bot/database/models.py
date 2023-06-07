@@ -33,10 +33,10 @@ class TypedCalenderEvent(CalenderEvent):
 
     @classmethod
     def from_ical(
-            cls,
-            ical: CalenderEvent,
-            new_uid: bool | str = False,
-            new_start: None | datetime = None,
+        cls,
+        ical: CalenderEvent,
+        new_uid: bool | str = False,
+        new_start: None | datetime = None,
     ) -> Self:
         """
         Create a new database event equal to the given one with optional new start date.
