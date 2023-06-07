@@ -5,6 +5,8 @@ from typing import Self
 from icalevents.icalparser import Event as CalenderEvent
 from fastorm import FastORM
 
+from brony_meetup_bot.classes import CalendarEntryText, CalendarDetail
+
 
 class TypedCalenderEvent(CalenderEvent):
     uid: int
@@ -130,4 +132,16 @@ class Event(TypedCalenderEvent, FastORM):
         super().from_ical(ical, new_uid, new_start)
         # now we could add values which are required in the database but are not part of the parent class.
         return self
+    # end def
+
+    def to_entry_text(self, calendar: CalendarDetail):
+        return CalendarEntryText(
+            calendar=calendar,
+            name=self.summary,
+            start_date=self.start,
+            end_date=self.end,
+            place=self.location,
+            link=self.url,
+        )
+    # end def
 # end class
