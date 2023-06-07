@@ -102,8 +102,12 @@ async def main():
 # end def
 
 
-if __name__ == '__main__':
+def start():
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main_loop())
+# end def
 
 
+if __name__ == '__main__':
+    start()
+# end def
