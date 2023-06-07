@@ -2,6 +2,7 @@ from datetime import datetime
 
 from .classes import CalendarDetail, CalendarEntryText
 
+CALENDAR_LINK = 'https://www.bronymeetup.de'
 
 CALENDARS = [
     CalendarDetail(

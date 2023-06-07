@@ -7,6 +7,7 @@ from typing import NamedTuple
 from luckydonaldUtils.text import convert_to_underscore
 
 from .utils import format_date_interval
+from .settings import CALENDAR_LINK
 
 
 class TagifyNameMixin:
@@ -62,7 +63,7 @@ class CalendarEntryText(TagifyNameMixin):
 
     def __str__(self):
         return self.TEMPLATE.format(
-            calendar=escape(self.calendar.name),
+            calendar=f'<a href="{ escape(CALENDAR_LINK) }">{ escape(self.calendar.name) }</a>',
             name=escape(self.name or self.NO_TITLE),
             date=escape(self.formatted_date_range),
             place=escape(self.place or self.NO_PLACE),
