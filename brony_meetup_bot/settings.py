@@ -46,3 +46,4 @@ example = CalendarEntryText(
 
 TELEGRAM_CHAT_ID = 123
 TELEGRAM_API_KEY = "asd:asd"
+POSTGRES_URL = "postgres://127.0.0.1:5432/brony_meetup_calendar_bot"
