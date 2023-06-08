@@ -39,21 +39,23 @@ class CalendarEntryText(TagifyNameMixin):
     end_date: date | datetime
     place: str | None
     link: str | None
+    details: str | None
 
     NO_TITLE = 'Nicht verraten'
     NO_PLACE = 'Noch unbekannt'
     NO_LINK = 'Noch keinen'
+    NO_DETAILS = 'Unbekannt'
 
     TEMPLATE = dedent("""
-        {calendar.emoji} Neuer Eintrag im {calendar}-Kalender
-
-        <b>Name:</b> {name}
+        {emoji} <b>{name}</b> {emoji}
+        <b>Kalender:</b> {calendar}
         <b>Datum:</b> {date}
         <b>Ort:</b> {place}
         <b>Link:</b> {link}
-
-        #{tags}
-    """.strip())
+        <b>Details:</b> {details}
+        
+        {tags}
+    """).strip()
 
     @property
     def formatted_date_range(self) -> str:
@@ -69,7 +71,8 @@ class CalendarEntryText(TagifyNameMixin):
             date=escape(self.formatted_date_range),
             place=escape(self.place or self.NO_PLACE),
             link=escape(self.link or self.NO_LINK),
-            emoji=escape(self.calendar.emoji),
+            details=escape(self.details or self.NO_DETAILS),
+            emoji=f'<a href="{ escape(self.link) }">{ escape(self.calendar.emoji) }</a>' if self.link else escape(self.calendar.emoji),
             tags=" ".join(
                 dict.fromkeys(  # <- dedupe
                     f'#{escape(str(tag))}'

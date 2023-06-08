@@ -35,6 +35,7 @@ CALENDARS = [
 example = CalendarEntryText(
     calendar=CALENDARS[0],
     name='Pinkies Chocolate Rain Party 2023',
+    details="So 'ne con halt",
     start_date=datetime(2023, 8, 18),
     end_date=datetime(2023, 8, 20),
     place=None,
