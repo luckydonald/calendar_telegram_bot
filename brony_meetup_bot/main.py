@@ -105,6 +105,9 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
                 )
                 db_event.telegram_text = text
                 await db_event.update(conn=conn)
+                break
+            else:
+                break
             # end if
         except TgApiServerException as e:
             logger.warning(e.response.json())
