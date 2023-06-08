@@ -17,8 +17,9 @@ class TagifyNameMixin:
         name = self.name
         name = re.sub('\s+', '_', name)
         name = re.sub('[^\w]', '', name)
+        name = convert_to_underscore(name).lower()
         name = re.sub('_+', '_', name)
-        return convert_to_underscore(name).lower()
+        return name
     # end def
 # end class#
 
