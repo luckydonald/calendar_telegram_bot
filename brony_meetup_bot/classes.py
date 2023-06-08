@@ -1,3 +1,4 @@
+import re
 from dataclasses import dataclass
 from datetime import date, datetime
 from html import escape
@@ -13,7 +14,11 @@ class TagifyNameMixin:
 
     @property
     def tagified(self):
-        return convert_to_underscore(self.name.replace(' ', '_')).replace('__', '_').lower()
+        name = self.name
+        name = re.sub('\s+', '_', name)
+        name = re.sub('[^\w]', '', name)
+        name = re.sub('_+', '_', name)
+        return convert_to_underscore(name).lower()
     # end def
 # end class#
 
