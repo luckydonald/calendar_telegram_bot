@@ -186,3 +186,7 @@ class Event(TypedCalenderEvent, FastORM):
         FastORM.__init__(self, **data)
     # end def
 # end class
+
+
+print(Event.build_sql_create()[0])
+print(Event.build_sql_references()[0])
