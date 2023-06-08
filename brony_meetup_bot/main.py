@@ -37,6 +37,7 @@ async def main_looper():
         except Exception as e:
             logger.exception('⚠️ Error:')
         # end try
+        logger.info('Loop done, waiting a minute.')
         await sleep(60)
     # end while
 # end def
