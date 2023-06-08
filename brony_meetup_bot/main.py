@@ -8,6 +8,7 @@ import httpx
 from asyncpg import Connection
 from fastorm import FastORM
 from icalevents.icalevents import events as parse_events
+from icalevents.icalparser import Event as CalenderEvent
 
 from luckydonaldUtils.logger import logging
 from pytgbot.bot.asynchronous import Bot
@@ -31,38 +32,43 @@ bot = Bot(TELEGRAM_API_KEY)
 
 async def main_loop():
     conn = await FastORM.get_connection(database_url=POSTGRES_URL)
+    events: list[tuple[CalendarDetail, CalenderEvent]] = []
     async with httpx.AsyncClient() as client:
         for calendar in CALENDARS:
             request = await client.get(calendar.url)
-            events = parse_events(
+            ics_events = parse_events(
                 string_content=request.content,
                 start=datetime.now(),
                 end=datetime.now() + timedelta(days=30*6)
             )
-            for event in events:
-                db_event = await Event.get(conn=conn, uid=str(event.uid))
-                if db_event is None:
-                    db_event = Event.from_ical(ical=event, calendar=calendar.calendar_id, new_uid=False)
-                    await db_event.insert(conn=conn)
-                    await send_to_telegram(conn, db_event, calendar)
-                else:
-                    id = db_event.uid
-                    changes = db_event.get_changes()
-                    logger.info(f'Changes Event[{id}]: {changes}')
-                    db_event.apply_ical(ical=event, calendar=calendar.calendar_id)
-                    changes = db_event.get_changes()
-                    for key, new in changes.items():
-                        changes[key] = (db_event._database_cache[key], new)
-                    # end for
-                    logger.info(f'Changes Event[{id}]: {changes}')
-                    if changes:
-                        await db_event.update(conn=conn)
-                        await send_to_telegram(conn, db_event, calendar)
-                    # end if
-                # end if
-            # end for
+            for event in ics_events:
+                events.append((calendar, event))
+            # end def
         # end for
     # end with
+    events.sort(key=lambda x: x[1].start)
+    for calendar, event in events:
+        db_event = await Event.get(conn=conn, uid=str(event.uid))
+        if db_event is None:
+            db_event = Event.from_ical(ical=event, calendar=calendar.calendar_id, new_uid=False)
+            await db_event.insert(conn=conn)
+            await send_to_telegram(conn, db_event, calendar)
+        else:
+            id = db_event.uid
+            changes = db_event.get_changes()
+            logger.info(f'Changes Event[{id}]: {changes}')
+            db_event.apply_ical(ical=event, calendar=calendar.calendar_id)
+            changes = db_event.get_changes()
+            for key, new in changes.items():
+                changes[key] = (db_event._database_cache[key], new)
+            # end for
+            logger.info(f'Changes Event[{id}]: {changes}')
+            if changes:
+                await db_event.update(conn=conn)
+                await send_to_telegram(conn, db_event, calendar)
+            # end if
+        # end if
+    # end for
 # end def
 
 
