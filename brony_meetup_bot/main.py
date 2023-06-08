@@ -29,6 +29,18 @@ bot = Bot(TELEGRAM_API_KEY)
 # Press the green button in the gutter to run the script.
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
+async def main_looper():
+    while True:
+        # noinspection PyBroadException
+        try:
+            await main_loop()
+        except Exception as e:
+            logger.exception('⚠️ Error:')
+        # end try
+        await sleep(60)
+    # end while
+# end def
+
 
 async def main_loop():
     conn = await FastORM.get_connection(database_url=POSTGRES_URL)
@@ -140,7 +152,7 @@ async def main():
 
 def start():
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main_loop())
+    loop.run_until_complete(main_looper())
 # end def
 
 
