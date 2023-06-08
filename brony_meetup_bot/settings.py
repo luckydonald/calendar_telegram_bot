@@ -1,6 +1,12 @@
 from datetime import datetime
+from urllib.parse import quote
 
 from .classes import CalendarDetail, CalendarEntryText
+from .environment import POSTGRES_USER, POSTGRES_PASS, POSTGRES_HOST, POSTGRES_DB
+
+# noinspection PyUnresolvedReferences
+from .environment import TELEGRAM_API_KEY, TELEGRAM_CHAT_ID
+
 
 CALENDAR_LINK = 'https://www.bronymeetup.de'
 MONTHS = 36
@@ -43,7 +49,4 @@ example = CalendarEntryText(
     link=None,
 )
 
-
-TELEGRAM_CHAT_ID = 123
-TELEGRAM_API_KEY = "asd:asd"
-POSTGRES_URL = "postgres://127.0.0.1:5432/brony_meetup_calendar_bot"
+POSTGRES_URL = f"postgresql://{quote(POSTGRES_USER)}:{quote(POSTGRES_PASS)}@{quote(POSTGRES_HOST)}/{quote(POSTGRES_DB)}"
