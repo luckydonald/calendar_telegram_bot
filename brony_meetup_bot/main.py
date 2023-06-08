@@ -73,10 +73,10 @@ async def main_loop():
 
 
 async def send_to_telegram(conn: Connection, db_event: Event, calendar: CalendarDetail):
-    text = db_event.to_entry_text(calendar)
+    text = str(db_event.to_entry_text(calendar))
     shared_params = dict(
         # chat_id=TELEGRAM_CHAT_ID,  # this one differs
-        text=str(text),
+        text=text,
         parse_mode='html',
         disable_web_page_preview=not db_event.url,
         reply_markup=None,
@@ -94,15 +94,17 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
                 )
                 db_event.telegram_channel_id = msg.chat.id
                 db_event.telegram_message_id = msg.message_id
+                db_event.telegram_text = text
                 await db_event.update(conn=conn)
-            else:
+            elif text != db_event.telegram_text:
                 await bot.edit_message_text(
                     chat_id=db_event.telegram_channel_id,
                     **shared_params,
                     message_id=db_event.telegram_message_id,
                     inline_message_id=None,
                 )
-                break
+                db_event.telegram_text = text
+                await db_event.update(conn=conn)
             # end if
         except TgApiServerException as e:
             logger.warning(e.response.json())

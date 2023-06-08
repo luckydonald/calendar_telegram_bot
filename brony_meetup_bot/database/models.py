@@ -115,6 +115,7 @@ class Event(TypedCalenderEvent, FastORM):
     calendar: int
     telegram_channel_id: None | int
     telegram_message_id: None | int
+    telegram_text: None | str
 
     @classmethod
     def from_ical(
