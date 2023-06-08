@@ -71,7 +71,7 @@ class CalendarEntryText(TagifyNameMixin):
             date=escape(self.formatted_date_range),
             place=escape(self.place or self.NO_PLACE),
             link=escape(self.link or self.NO_LINK),
-            details=escape(self.details or self.NO_DETAILS),
+            details=("\n" if self.details and "\n" in self.details else "") + escape(self.details or self.NO_DETAILS),
             emoji=f'<a href="{ escape(self.link) }">{ escape(self.calendar.emoji) }</a>' if self.link else escape(self.calendar.emoji),
             tags=" ".join(
                 dict.fromkeys(  # <- dedupe
