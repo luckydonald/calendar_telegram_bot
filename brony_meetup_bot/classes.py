@@ -13,7 +13,7 @@ class TagifyNameMixin:
 
     @property
     def tagified(self):
-        return convert_to_underscore(self.name.replace(' ', '_')).lower()
+        return convert_to_underscore(self.name.replace(' ', '_')).replace('__', '_').lower()
     # end def
 # end class#
 
