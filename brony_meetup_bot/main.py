@@ -17,7 +17,7 @@ from pytgbot.exceptions import TgApiServerException
 # local
 from .classes import CalendarDetail, CalendarEntryText
 from .database.models import Event
-from .settings import CALENDARS, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID, POSTGRES_URL
+from .settings import CALENDARS, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID, POSTGRES_URL, MONTHS
 
 logger = logging.getLogger(__name__)
 bot = Bot(TELEGRAM_API_KEY)
@@ -39,7 +39,7 @@ async def main_loop():
             ics_events = parse_events(
                 string_content=request.content,
                 start=datetime.now(),
-                end=datetime.now() + timedelta(days=30*6)
+                end=datetime.now() + timedelta(days=30 * MONTHS)
             )
             for event in ics_events:
                 events.append((calendar, event))
