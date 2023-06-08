@@ -47,7 +47,7 @@ class CalendarEntryText(TagifyNameMixin):
     NO_DETAILS = 'Unbekannt'
 
     TEMPLATE = dedent("""
-        {emoji} <b>{name}</b> {emoji}
+        {emoji} <b><u>{name}</u></b> {emoji}
         <b>Kalender:</b> {calendar}
         <b>Datum:</b> {date}
         <b>Ort:</b> {place}
