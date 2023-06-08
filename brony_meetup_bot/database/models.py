@@ -9,8 +9,7 @@ from brony_meetup_bot.classes import CalendarEntryText, CalendarDetail
 
 
 class TypedCalenderEvent(CalenderEvent):
-    uid: int
-    calendar: int
+    uid: str
     summary: None | str
     description: None | str
     start: None | datetime
@@ -37,6 +36,7 @@ class TypedCalenderEvent(CalenderEvent):
     def from_ical(
         cls,
         ical: CalenderEvent,
+        calendar: int,
         new_uid: bool | str = False,
         new_start: None | datetime = None,
     ) -> Self:
@@ -49,7 +49,7 @@ class TypedCalenderEvent(CalenderEvent):
         :return: new event.
         """
         new = cls()
-        return new.apply_ical(ical=ical, new_uid=new_uid, new_start=new_start)
+        return new.apply_ical(ical=ical, new_uid=new_uid, new_start=new_start, calendar=calendar)
     # end def
 
     def apply_ical(
@@ -112,25 +112,51 @@ class Event(TypedCalenderEvent, FastORM):
     _automatic_fields = []
     _table_name = 'event'
 
+    calendar: int
     telegram_channel_id: None | int
     telegram_message_id: None | int
 
-    def apply_ical(
-        self,
+    @classmethod
+    def from_ical(
+        cls,
         ical: CalenderEvent,
+        calendar: int,
         new_uid: bool | str = False,
         new_start: None | datetime = None,
     ) -> Self:
         """
-        Apply data from the given one, with optional new start date.
+        Create a new database event equal to the given one with optional new start date.
 
         :param ical: the event to copy.
         :param new_uid: UID of new event.
         :param new_start: new start date.
         :return: new event.
         """
-        super().from_ical(ical, new_uid, new_start)
+        new = cls()
+        return new.apply_ical(ical=ical, new_uid=new_uid, new_start=new_start, calendar=calendar)
+    # end def
+
+    def apply_ical(
+        self,
+        ical: CalenderEvent,
+        calendar: int = None,
+        new_uid: bool | str = False,
+        new_start: None | datetime = None,
+    ) -> Self:
+        """
+        Apply data from the given one, with optional new start date.
+
+        :param calendar: the calendar (id) this is part if
+        :param ical: the event to copy.
+        :param new_uid: UID of new event.
+        :param new_start: new start date.
+        :return: new event.
+        """
+        assert calendar is not None
+        super().apply_ical(ical=ical, new_uid=new_uid, new_start=new_start)
+
         # now we could add values which are required in the database but are not part of the parent class.
+        self.calendar = calendar
         return self
     # end def
 
@@ -142,6 +168,21 @@ class Event(TypedCalenderEvent, FastORM):
             end_date=self.end,
             place=self.location,
             link=self.url,
+            details=self.description,
         )
+    # end def
+
+    def __init__(
+        self,
+        uid: str = "-1",
+        calendar: int = -1,
+        all_day: bool = True,
+        transparent: bool = False,
+        recurring: bool = False,
+        private: bool = False,
+        **data,
+    ):
+        data = data | dict(uid=uid, calendar=calendar, all_day=all_day, transparent=transparent, recurring=recurring, private=private)
+        FastORM.__init__(self, **data)
     # end def
 # end class
