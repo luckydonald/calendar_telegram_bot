@@ -18,6 +18,7 @@ from pytgbot.exceptions import TgApiServerException
 from .classes import CalendarDetail, CalendarEntryText
 from .database.models import Event
 from .settings import CALENDARS, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID, POSTGRES_URL, MONTHS
+from .text.helper import append_last_changed
 
 logger = logging.getLogger(__name__)
 bot = Bot(TELEGRAM_API_KEY)
@@ -89,7 +90,7 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
     text = str(db_event.to_entry_text(calendar))
     shared_params = dict(
         # chat_id=TELEGRAM_CHAT_ID,  # this one differs
-        text=text,
+        text=append_last_changed(text),
         parse_mode='html',
         disable_web_page_preview=not db_event.url,
         reply_markup=None,
