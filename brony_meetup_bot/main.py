@@ -96,8 +96,7 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
         reply_markup=None,
         entities=None,
     )
-    msg = None
-    while msg is None:
+    for i in range(10):
         try:
             if not db_event.telegram_channel_id and not db_event.telegram_message_id:
                 msg = await bot.send_message(
@@ -110,6 +109,7 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
                 db_event.telegram_message_id = msg.message_id
                 db_event.telegram_text = text
                 await db_event.update(conn=conn)
+                break
             elif text != db_event.telegram_text:
                 await bot.edit_message_text(
                     chat_id=db_event.telegram_channel_id,
