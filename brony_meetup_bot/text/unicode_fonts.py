@@ -1,7 +1,8 @@
 from enum import IntEnum, auto as a
+
 INPUT = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-class Fonts(IntEnum, str):
+class Fonts(IntEnum):
     MONOSPACE = a()
     ITALIC = a()
     BOLD = a()
@@ -32,12 +33,13 @@ REVERSE_REPLACEMENTS: dict[Fonts, dict[str, str]] = {
 }
 
 
+def replace_with(text: str, replacements: dict[str, str]) -> str:
+    return "".join([replacements.get(char, char) for char in text])
+# end def
+
+
 def replace(text: str, font: Fonts, reverse: bool = False) -> str:
     replacements = REVERSE_REPLACEMENTS if reverse else REPLACEMENTS
     return replace_with(text=text, replacements=replacements[font])
 # end def
 
-
-def replace_with(text: str, replacements: dict[str, str]) -> str:
-    return "".join([replacements.get(char, char) for char in text])
-# end def
