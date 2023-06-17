@@ -1,8 +1,10 @@
 luckydonald-utils==0.83
 
-icalendar==5.0.7
-
 icalevents==0.1.27
+
+# icalevents 0.1.27 depends on icalendar==4.0.9
+# icalendar==5.0.7
+icalendar==4.0.9
 
 httpx==0.24.1
 
