@@ -15,7 +15,7 @@ from pytgbot.bot.asynchronous import Bot
 from pytgbot.exceptions import TgApiServerException
 
 # local
-from .classes import CalendarDetail, CalendarEntryText
+from .classes import CalendarDetail
 from .database.models import Event
 from .settings import CALENDARS, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID, POSTGRES_URL, MONTHS
 from .text.helper import append_last_changed

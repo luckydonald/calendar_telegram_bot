@@ -161,7 +161,7 @@ class Event(TypedCalenderEvent, FastORM):
         return self
     # end def
 
-    def to_entry_text(self, calendar: CalendarDetail):
+    def to_entry_text(self, calendar: CalendarDetail) -> CalendarEntryText:
         return CalendarEntryText(
             calendar=calendar,
             name=self.summary,
