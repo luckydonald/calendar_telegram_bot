@@ -57,9 +57,8 @@ class CalendarEntryText(TagifyNameMixin):
         <b>Kalender:</b> {calendar}
         <b>Datum:</b> {date}
         <b>Ort:</b> {place}
-        <b>Link:</b> {link}
         <b>Details:</b> {details}
-        
+
         {tags}
     """).strip()
 
@@ -76,8 +75,7 @@ class CalendarEntryText(TagifyNameMixin):
             name=escape(self.name or self.NO_TITLE),
             date=escape(self.formatted_date_range),
             place=escape(self.place or self.NO_PLACE),
-            link=escape(self.link or self.NO_LINK),
-            details=("\n" if self.details and "\n" in self.details else "") + escape(self.details or self.NO_DETAILS),
+            details=("\n" if self.details and "\n" in self.details else "") + escape(self.details or self.NO_DETAILS) + (f'Link: {escape(self.link)}\n' if self.link else ''),
             emoji=f'<a href="{ escape(self.link) }">{ escape(self.calendar.emoji) }</a>' if self.link else escape(self.calendar.emoji),
             tags=" ".join(
                 dict.fromkeys(  # <- dedupe
