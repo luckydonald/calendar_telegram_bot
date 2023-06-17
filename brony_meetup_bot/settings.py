@@ -49,4 +49,16 @@ example = CalendarEntryText(
     link=None,
 )
 
-POSTGRES_URL = f"postgresql://{quote(POSTGRES_USER)}:{quote(POSTGRES_PASS)}@{quote(POSTGRES_HOST)}/{quote(POSTGRES_DB)}"
+
+def build_postgres_url(user, password, host, db, port=None) -> str:
+    if user:
+        auth = f'{quote(user)}:{quote(password)}@' if password else f'{quote(user)}@'
+    else:
+        auth = f':{quote(user)}@' if password else ''
+    # end if
+    domain = quote(f'{host}:{port}' if port else host)
+    return f"postgresql://{auth!s}{domain}/{quote(db)}"
+# end def
+
+
+POSTGRES_URL = build_postgres_url(user=POSTGRES_USER, password=POSTGRES_PASS, host=POSTGRES_HOST, db=POSTGRES_DB)

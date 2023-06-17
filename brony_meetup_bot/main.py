@@ -45,7 +45,8 @@ async def main_looper():
 
 
 async def main_loop():
-    conn = await FastORM.get_connection(database_url=POSTGRES_URL)
+    logger.info(f'POSTGRES_URL: {POSTGRES_URL}, establishing connection...')
+    conn = await FastORM.create_connection(database_url=POSTGRES_URL)
     events: list[tuple[CalendarDetail, CalenderEvent]] = []
     async with httpx.AsyncClient() as client:
         for calendar in CALENDARS:
