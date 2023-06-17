@@ -1,6 +1,8 @@
 FROM python:3.11
 
-COPY ./main.py              /config/main.py
+WORKDIR /app
+COPY ./main.py              /app/main.py
+COPY ./models.py            /app/models.py
 COPY ./requirements.txt     /config/requirements.txt
 RUN pip install --no-cache-dir -r /config/requirements.txt
 
