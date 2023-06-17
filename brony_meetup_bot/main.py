@@ -19,6 +19,7 @@ from .classes import CalendarDetail
 from .database.models import Event
 from .settings import CALENDARS, TELEGRAM_API_KEY, TELEGRAM_CHAT_ID, POSTGRES_URL, MONTHS
 from .text.helper import append_last_changed
+from .environment import TELEGRAM_DISABLE_NOTIFICATIONS
 
 logger = logging.getLogger(__name__)
 bot = Bot(TELEGRAM_API_KEY)
@@ -103,7 +104,7 @@ async def send_to_telegram(conn: Connection, db_event: Event, calendar: Calendar
                 msg = await bot.send_message(
                     chat_id=TELEGRAM_CHAT_ID,
                     **shared_params,
-                    disable_notification=False,
+                    disable_notification=TELEGRAM_DISABLE_NOTIFICATIONS,
                     protect_content=False,
                 )
                 db_event.telegram_channel_id = msg.chat.id

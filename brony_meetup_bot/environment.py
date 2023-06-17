@@ -14,6 +14,11 @@ TELEGRAM_CHAT_ID: str = os.getenv('TELEGRAM_CHAT_ID', None)
 assert(TELEGRAM_CHAT_ID is not None)  # TELEGRAM_CHAT_ID environment variable
 TELEGRAM_CHAT_ID: int = int(TELEGRAM_CHAT_ID)
 
+TELEGRAM_DISABLE_NOTIFICATIONS: str = os.getenv('TELEGRAM_DISABLE_NOTIFICATIONS', 'false')
+assert(TELEGRAM_DISABLE_NOTIFICATIONS is not None)  # TELEGRAM_DISABLE_NOTIFICATIONS environment variable
+TELEGRAM_DISABLE_NOTIFICATIONS: int = string_is_yes(TELEGRAM_DISABLE_NOTIFICATIONS)
+
+
 # database settings
 POSTGRES_USER: str = os.getenv('POSTGRES_USER', None)
 assert POSTGRES_USER is not None  # $POSTGRES_USER environment variable
