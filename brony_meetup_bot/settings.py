@@ -30,12 +30,12 @@ CALENDARS = [
         emoji='🟪',
         url=f'https://export.kalender.digital/ics/1772773/04a1b8fbed2d7268bc93/conventionsint.ics?past_months=0&future_months={MONTHS}',
     ),
-    CalendarDetail(
-        name='Stammtisch',
-        calendar_id=4,
-        emoji='🟧',
-        url=f'https://export.kalender.digital/ics/1772774/04a1b8fbed2d7268bc93/stammtische.ics?past_months=0&future_months={MONTHS}',
-    ),
+    # CalendarDetail(
+    #     name='Stammtisch',
+    #     calendar_id=4,
+    #     emoji='🟧',
+    #     url=f'https://export.kalender.digital/ics/1772774/04a1b8fbed2d7268bc93/stammtische.ics?past_months=0&future_months={MONTHS}',
+    # ),
 ]
 
 
